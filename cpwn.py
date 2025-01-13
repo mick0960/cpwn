@@ -328,7 +328,7 @@ def do_patch(target_files):
     """
     # precheck
     prepared_files = {}
-    target_excutable = target_files[BaseFile.EXECUTABLE] + "_patched"
+    target_excutable = target_files[BaseFile.EXECUTABLE]
     arch = ELF(target_files[BaseFile.EXECUTABLE]).arch
     if BaseFile.LIBC not in target_files:
         log_info("No libc file find in your workdir.")
@@ -351,8 +351,11 @@ def do_patch(target_files):
         prepared_files[BaseFile.LIBC] = glibc_files[BaseFile.LIBC]
     prepared_files[BaseFile.LIBC] = glibc_files[BaseFile.LIBC]
     prepared_files[BaseFile.LD] = glibc_files[BaseFile.LD]
-    # copy and patch
-    copy(target_files[BaseFile.EXECUTABLE], target_excutable)
+    # backup origin executable
+    backup_executable = target_files[BaseFile.EXECUTABLE] + ".bak"
+    copy(target_files[BaseFile.EXECUTABLE], backup_executable)
+
+    # patch
     subprocess.run(f'chmod +x "{target_excutable}"', text=True, shell=True)
     subprocess.run(
         f'chmod +x "{target_files[BaseFile.EXECUTABLE]}"', text=True, shell=True
