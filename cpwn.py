@@ -351,7 +351,7 @@ def do_patch(target_files):
         prepared_files[BaseFile.LIBC] = glibc_files[BaseFile.LIBC]
     prepared_files[BaseFile.LIBC] = glibc_files[BaseFile.LIBC]
     prepared_files[BaseFile.LD] = glibc_files[BaseFile.LD]
-    # backup origin executable
+    # backup origin executable with .bak
     backup_executable = target_files[BaseFile.EXECUTABLE] + ".bak"
     copy(target_files[BaseFile.EXECUTABLE], backup_executable)
 
